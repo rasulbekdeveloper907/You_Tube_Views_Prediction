@@ -23,12 +23,17 @@ import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 
 class Encoder:
-    def __init__(self, df):
+    def __init__(self, df, target_col = None):
         self.df = df
         self.encoder = LabelEncoder()
+        self.target_col = target_col
 
     def encodla(self):
         for col in self.df.columns:
+            if col  == self.target_col:
+                continue 
+
+            
             if self.df[col].dtype == 'object':
                 if self.df[col].nunique() <= 5:
                     dummies = pd.get_dummies(self.df[col], prefix=col, dtype=int)
@@ -40,7 +45,7 @@ class Encoder:
     def get_df(self):
         return self.df 
     
-    import pandas as pd
+import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
 class Scaler:
