@@ -49,12 +49,16 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
 class Scaler:
-    def __init__(self, df):
+    def __init__(self, df, target_col = None):
         self.df = df
         self.scaler = StandardScaler()
+        self.target_col = target_col
 
     def scaling_qil(self):
-        numeric_cols = self.df.select_dtypes(include=['int64']).columns
+        numeric_cols = self.df.select_dtypes(include=['int64', "float64"]).columns
+        numeric_cols = [col for col in numeric_cols if col != self.target_col]
+
+
         self.df[numeric_cols] = pd.DataFrame(
             self.scaler.fit_transform(self.df[numeric_cols]),
             columns=numeric_cols,
